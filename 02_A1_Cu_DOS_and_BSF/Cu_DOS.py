@@ -89,7 +89,7 @@ def main():
     calculator.input_parameters.ENERGY.EMAX=top
     calculator.input_parameters.ENERGY.EMIN=bottom
     calculator.input_parameters.ENERGY.ImE=0.01 # Closest approach to real axis
-    calculator.input_parameters.set(NE=751)
+    calculator.input_parameters.set(NE=1501)
     calculator.input_parameters.ENERGY.GRID=3 # Parallel energy contour
 
     calculator.directory = directory
@@ -111,12 +111,12 @@ def main():
 
     calculator.input_parameters='bsfek'
     calculator.input_parameters.TASK.KPATH=1 # Parallel energy contour
-    calculator.input_parameters.TASK.NK=501 # Parallel energy contour
+    calculator.input_parameters.TASK.NK=1001 # Parallel energy contour
     calculator.input_parameters.set(NKTAB=5000) # Control k-point sampling. 250 is default.
     calculator.input_parameters.ENERGY.EMAX=top
     calculator.input_parameters.ENERGY.EMIN=bottom
     calculator.input_parameters.ENERGY.ImE=0.001 # Closest approach to real axis
-    calculator.input_parameters.set(NE=751)
+    calculator.input_parameters.set(NE=1501)
     calculator.input_parameters.ENERGY.GRID=3 # Parallel energy contour
 
     calculator.directory = directory
