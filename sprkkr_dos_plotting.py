@@ -11,7 +11,7 @@ import numpy as np
 
 ry_to_ev = 13.6057039763
 
-def sprkkr_dos_read(filename, l_max=3, spin_channels=2):
+def sprkkr_dos_read(filename, l_max=2, spin_channels=2):
     ''' 
     Routine to read DOS calculation output from SPR-KKR.
         
@@ -20,7 +20,7 @@ def sprkkr_dos_read(filename, l_max=3, spin_channels=2):
     '''
     
     # Open the DoS file
-    dos_file = filename+'.dos'
+    dos_file = filename
     
     # Read the data line by line.
     # Typically, SPR-KKR writes the DoS in a weird format with no
@@ -59,18 +59,16 @@ def sprkkr_dos_read(filename, l_max=3, spin_channels=2):
     re_energies = np.zeros(n_energies)
     im_energies = np.zeros(n_energies)
     dos = np.zeros((n_energies))
-    lm_components = np.zeros((n_species, n_energies, l_max, 
+    lm_components = np.zeros((n_species, n_energies, l_max+1, 
                               spin_channels))
     species_resolved = np.zeros((n_species, n_energies))
-
-    print(n_energies, n_species, l_max, spin_channels, elements)
 
     # Loop over energies
     for i in range(n_energies):
         # Loop over species
         all_lines = ''
-        for s in range(n_species+1):
-            line = data[dos_start+i*(n_species+1)+s]
+        for s in range(n_species):
+            line = data[dos_start+i*(n_species)+s]
             all_lines += (line.strip())
 
         re_energies[i] = float(all_lines[0:10])
@@ -79,11 +77,9 @@ def sprkkr_dos_read(filename, l_max=3, spin_channels=2):
         start = 20
 
         for s in range(n_species):
-            for j in range(l_max):
+            for j in range(l_max+1):
                 for k in range(spin_channels):
                     component = all_lines[start+ j*10 + k*l_max*10 + s*spin_channels*l_max*10:start+ j*10 + k*l_max*10 + s*spin_channels*l_max*10+10]
-                    if (i==1):
-                       print(component)
                     lm_components[s,i,j,k] = float(component)
                     species_resolved[s,i] += float(component)
                     dos[i] += float(component)*nats[s]
