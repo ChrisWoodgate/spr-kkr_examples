@@ -58,8 +58,6 @@ def main():
     calculator.input_parameters.SCF.TOL=1e-6 # Tight tolerance on SCF cycle
     calculator.input_parameters.SCF.NITER=200 # Allow for lots of iterations if needed
     calculator.input_parameters.ENERGY.ImE=0.005 # Closest approach to real axis
-    calculator.input_parameters.CPA.NITER=30 # Allow for a lot of CPA iterations if needed
-    calculator.input_parameters.CPA.TOL=1e-6 # Tight CPA tol to go with tight SCF tol
     
     # Run the calculator
     out=calculator.calculate()
