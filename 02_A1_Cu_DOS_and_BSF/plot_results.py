@@ -34,13 +34,18 @@ ax1.pcolormesh(bsfdata.k,(bsfdata.E-bsfdata.EFERMI)*sprkkr_bsf_plotting.Ry,np.su
 # Top and bottom energies for limits
 Emin = np.min((bsfdata.E-bsfdata.EFERMI)*sprkkr_bsf_plotting.Ry)
 Emax = np.max((bsfdata.E-bsfdata.EFERMI)*sprkkr_bsf_plotting.Ry)
-ax1.set_ylim([-11.0,5])    
+ax1.set_ylim([-12.5,5])    
 
 # Add the ticks, lines and special point labels
 ax1.set_xticks(np.insert(bsfdata.k[0,[X-1 for X in bsfdata.INDKDIR]],0,0))
-ax1.set_xticklabels([r'$X$', r'$\Gamma$', r'$L$', r'$W$', r'$K$', r'$\Gamma/L$', r'$U$', r'$X$', r'$W$', r'$U$'])
+
+# Uncomment the line below if using KPATH=1
+#ax1.set_xticklabels([r'$X$', r'$\Gamma$', r'$L$', r'$W$', r'$K$', r'$\Gamma/L$', r'$U$', r'$X$', r'$W$', r'$U$'])
+# Uncomment the line below if using KPATH=2
+ax1.set_xticklabels([r'$X$', r'$\Gamma$', r'$L$', r'$W$', r'$K$', r'$\Gamma$'])
+
 for index in bsfdata.INDKDIR:
-    ax1.plot([bsfdata.k[0,index-1],bsfdata.k[0,index-1]],[-11.5,Emax],color='black',lw=0.5)
+    ax1.plot([bsfdata.k[0,index-1],bsfdata.k[0,index-1]],[-12.5,Emax],color='black',lw=0.5)
 
 # Add the Fermi level
 ax1.plot([0,np.max(bsfdata.k)],[0,0],color='black',lw=0.5, linestyle='dashed')
