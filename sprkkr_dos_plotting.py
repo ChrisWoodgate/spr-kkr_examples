@@ -80,7 +80,7 @@ def sprkkr_dos_read(filename, l_max=2, spin_channels=2):
             for j in range(l_max+1):
                 for k in range(spin_channels):
                     component = all_lines[start+ j*10 + k*l_max*10 + s*spin_channels*l_max*10:start+ j*10 + k*l_max*10 + s*spin_channels*l_max*10+10]
-                    lm_components[s,i,j,k] = float(component)
+                    lm_components[s,k,j,i] = float(component)
                     species_resolved[s,i] += float(component)
                     dos[i] += float(component)*nats[s]
         
@@ -107,4 +107,4 @@ def sprkkr_dos_read(filename, l_max=2, spin_channels=2):
     dos = dos/ry_to_ev
     species_resolved = species_resolved/ry_to_ev
 
-    return re_energies, dos, species_resolved, title, elements, concentrations, n_species 
+    return re_energies, dos, species_resolved, lm_resolved, title, elements, concentrations, n_species
