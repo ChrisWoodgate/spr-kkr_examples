@@ -15,8 +15,10 @@ plt.rc('font', family='serif')
 # Parse the BSF data
 bsfdata = sprkkr_bsf_plotting.parse_bsfdata('blochsf/_Cu_BSFEK_BLOCHSF.bsf')
 
+l_max = 2
+
 # Parse the DOS data
-re_energies, dos, species_resolved, title, elements, concentrations, n_species = sprkkr_dos_plotting.sprkkr_dos_read('dos/_Cu_DOS_DOS.dos', l_max=2, spin_channels=2)
+re_energies, dos, species_resolved, lm_resolved, title, elements, concentrations, n_species = sprkkr_dos_plotting.sprkkr_dos_read('dos/_Cu_DOS_DOS.dos', l_max=l_max, spin_channels=2)
 
 # Make a figure and grab my axes
 fig,axes = plt.subplots(1,2, sharey=True,gridspec_kw={'width_ratios': [2.4, 1]})
@@ -64,6 +66,25 @@ ax2.legend(fontsize=11, loc='lower right')
 
 plt.tight_layout()
 plt.savefig('./Cu.pdf', dpi=300)
+plt.close()
 
 nelec = simpson(dos[0:1002], x=re_energies[0:1002])
 print('Sanity check: Found ', nelec, ' electrons up to Fermi energy by integrating raw DOS data')
+
+fig, ax = plt.subplots()
+fig.set_size_inches(4,3)
+
+for i in range(l_max+1):
+    ax.plot(re_energies, 2*lm_resolved[0,0,i,:], label=r'$l=$'+i)
+ax.plot(re_energies, dos, label='Total', color='black')
+
+ax.vlines(0.0, 0.0, 12.0 ,color='black',lw=0.5, linestyle='dashed')
+ax.set_ylim(0.0, 4.0)
+ax.set_xlim(-12.5, 5.0)
+ax.set_ylabel(r'DOS (eV$^{-1}$)')
+ax.set_xlabel(r'$E-E_{\rm F}$ (eV)')
+ax.set_title(r'Cu DOS: $l$-resolved')
+
+plt.tight_layout()
+plt.savefig('./Cu_l-resolved.pdf')
+plt.close()
