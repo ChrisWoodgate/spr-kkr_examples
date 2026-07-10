@@ -6,21 +6,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import simpson
 
-# Font size etc.
-plt.rc('font',**{'size'   : 16,
-             'weight' :'normal'})
-plt.rc('text', usetex=True)
-plt.rc('font', family='serif')
+## Font size etc.
+#plt.rc('font',**{'size'   : 16,
+#             'weight' :'normal'})
+#plt.rc('text', usetex=True)
+#plt.rc('font', family='serif')
 
 # Parse the BSF data
 bsfdata = sprkkr_bsf_plotting.parse_bsfdata('blochsf/_Ag_BSFEK_BLOCHSF.bsf')
 
+l_max = 2
+
 # Parse the DOS data
-re_energies, dos, species_resolved, title, elements, concentrations, n_species = sprkkr_dos_plotting.sprkkr_dos_read('dos/_Ag_DOS_DOS.dos', l_max=2, spin_channels=2)
+re_energies, dos, species_resolved, lm_resolved, title, elements, concentrations, n_species = sprkkr_dos_plotting.sprkkr_dos_read('dos/_Ag_DOS_DOS.dos', l_max=l_max, spin_channels=2)
 
 # Make a figure and grab my axes
 fig,axes = plt.subplots(1,2, sharey=True,gridspec_kw={'width_ratios': [2.4, 1]})
-fig.set_size_inches(7,4)
+fig.set_size_inches(6,3.5)
 ax1 = axes[0]
 ax2 = axes[1]
 
@@ -59,11 +61,31 @@ ax2.hlines(0.0, 0.0, 12.0 ,color='black',lw=0.5, linestyle='dashed')
 ax2.set_xlabel(r'DOS (eV$^{-1}$)')
 ax2.set_xlim(0.0, 4.0)
 for i in range(0, n_species,2):
-    ax2.plot(species_resolved[i,:], re_energies, alpha=1.0, label=elements[i], color='tab:gray')
+    ax2.plot(species_resolved[i,:], re_energies, alpha=1.0, label=elements[i], color='tab:blue')
 ax2.legend(fontsize=11, loc='lower right')
 
 plt.tight_layout()
 plt.savefig('./Ag.pdf', dpi=300)
+plt.close()
 
 nelec = simpson(dos[0:1002], x=re_energies[0:1002])
 print('Sanity check: Found ', nelec, ' electrons up to Fermi energy by integrating raw DOS data')
+
+fig, ax = plt.subplots()
+fig.set_size_inches(4,3)
+
+for i in range(l_max+1):
+    ax.plot(re_energies, 2*lm_resolved[0,0,i,:], label=r'$l=$'+str(i))
+ax.plot(re_energies, species_resolved[0,:], label='Total', color='black')
+
+ax.vlines(0.0, 0.0, 12.0 ,color='black',lw=0.5, linestyle='dashed')
+ax.legend(fontsize='x-small')
+ax.set_ylim(0.0, 4.0)
+ax.set_xlim(-12.5, 5.0)
+ax.set_ylabel(r'DOS (eV$^{-1}$)')
+ax.set_xlabel(r'$E-E_{\rm F}$ (eV)')
+ax.set_title(r'Ag DOS: $l$-resolved')
+
+plt.tight_layout()
+plt.savefig('./Ag_l-resolved.pdf')
+plt.close()
