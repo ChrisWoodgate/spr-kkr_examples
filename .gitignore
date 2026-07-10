@@ -4,3 +4,12 @@
 # Ignore pycache
 __pycache__
 */__pycache__
+
+# Ignore SPR-KKR output files
+*.pot
+*.inp
+*.log
+*.pot_new
+*.dos
+*.bsf
+*.out
