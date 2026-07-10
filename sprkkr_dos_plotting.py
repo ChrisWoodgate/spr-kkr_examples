@@ -59,8 +59,7 @@ def sprkkr_dos_read(filename, l_max=2, spin_channels=2):
     re_energies = np.zeros(n_energies)
     im_energies = np.zeros(n_energies)
     dos = np.zeros((n_energies))
-    lm_components = np.zeros((n_species, n_energies, l_max+1, 
-                              spin_channels))
+    lm_components = np.zeros((n_species, spin_channels, l_max+1, n_energies))
     species_resolved = np.zeros((n_species, n_energies))
 
     # Loop over energies
@@ -106,5 +105,6 @@ def sprkkr_dos_read(filename, l_max=2, spin_channels=2):
     re_energies = (re_energies-e_fermi)*ry_to_ev
     dos = dos/ry_to_ev
     species_resolved = species_resolved/ry_to_ev
+    lm_components = lm_components/ry_to_ev
 
-    return re_energies, dos, species_resolved, lm_resolved, title, elements, concentrations, n_species
+    return re_energies, dos, species_resolved, lm_components, title, elements, concentrations, n_species
