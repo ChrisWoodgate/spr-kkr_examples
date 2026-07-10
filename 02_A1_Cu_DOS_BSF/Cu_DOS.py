@@ -108,8 +108,8 @@ def main():
     os.system(f'cp ./scf/' + converged_pot + f' ./blochsf/')
 
     calculator.input_parameters='bsfek'
-    calculator.input_parameters.TASK.KPATH=1 # Parallel energy contour
-    calculator.input_parameters.TASK.NK=1001 # Parallel energy contour
+    calculator.input_parameters.TASK.KPATH=2 # Choice of path through Brillouin zone
+    calculator.input_parameters.TASK.NK=1001 # Approximate number of k-points on path
     calculator.input_parameters.set(NKTAB=5000) # Control k-point sampling. 250 is default.
     calculator.input_parameters.ENERGY.EMAX=top
     calculator.input_parameters.ENERGY.EMIN=bottom

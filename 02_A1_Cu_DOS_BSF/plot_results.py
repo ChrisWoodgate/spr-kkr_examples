@@ -6,11 +6,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import simpson
 
-# Font size etc.
-plt.rc('font',**{'size'   : 16,
-             'weight' :'normal'})
-plt.rc('text', usetex=True)
-plt.rc('font', family='serif')
+## Font size etc.
+#plt.rc('font',**{'size'   : 16,
+#             'weight' :'normal'})
+#plt.rc('text', usetex=True)
+#plt.rc('font', family='serif')
 
 # Parse the BSF data
 bsfdata = sprkkr_bsf_plotting.parse_bsfdata('blochsf/_Cu_BSFEK_BLOCHSF.bsf')
@@ -22,7 +22,7 @@ re_energies, dos, species_resolved, lm_resolved, title, elements, concentrations
 
 # Make a figure and grab my axes
 fig,axes = plt.subplots(1,2, sharey=True,gridspec_kw={'width_ratios': [2.4, 1]})
-fig.set_size_inches(7,4)
+fig.set_size_inches(6,3.5)
 ax1 = axes[0]
 ax2 = axes[1]
 
@@ -75,10 +75,11 @@ fig, ax = plt.subplots()
 fig.set_size_inches(4,3)
 
 for i in range(l_max+1):
-    ax.plot(re_energies, 2*lm_resolved[0,0,i,:], label=r'$l=$'+i)
-ax.plot(re_energies, dos, label='Total', color='black')
+    ax.plot(re_energies, 2*lm_resolved[0,0,i,:], label=r'$l=$'+str(i))
+ax.plot(re_energies, species_resolved[0,:], label='Total', color='black')
 
 ax.vlines(0.0, 0.0, 12.0 ,color='black',lw=0.5, linestyle='dashed')
+ax.legend(fontsize='x-small')
 ax.set_ylim(0.0, 4.0)
 ax.set_xlim(-12.5, 5.0)
 ax.set_ylabel(r'DOS (eV$^{-1}$)')
